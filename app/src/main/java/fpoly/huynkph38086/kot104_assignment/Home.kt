@@ -10,13 +10,18 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,16 +40,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
-import fpoly.huynkph38086.kot104_assignment.thu_vien_rieng.upTo
+import fpoly.huynkph38086.kot104_assignment.model.NoiThat
 import fpoly.huynkph38086.kot104_assignment.ui.theme.KOT104_AssignmentTheme
 
 class Home : ComponentActivity() {
+    private var list: List<NoiThat> = listOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             KOT104_AssignmentTheme {
-                Greeting3(this)
+                Greeting3(this, list)
             }
         }
     }
@@ -77,7 +83,7 @@ fun NAV() {
 }
 
 @Composable
-fun Greeting3(activity: Activity) {
+fun Greeting3(activity: Activity, list: List<NoiThat>) {
     var trang = 1
     Column(
         modifier = Modifier
@@ -91,12 +97,12 @@ fun Greeting3(activity: Activity) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp, 0.dp, 24.dp, 24.dp),
-            colors = CardDefaults.cardColors(containerColor =
-            Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation =
-            4.dp)
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            HomeScreen(activity, trang)
+            Box(modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp)){
+                HomeScreen(activity, list)
+            }
             Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier
@@ -133,30 +139,24 @@ fun Greeting3(activity: Activity) {
 }
 
 @Composable
-fun HomeScreen(activity: Activity, trang: Int) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 16.dp, 16.dp, 0.dp)
+fun HomeScreen(activity: Activity, list: List<NoiThat>) {
+    val gridState = rememberLazyStaggeredGridState()
+
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        state = gridState,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalItemSpacing = 4.dp,
+        contentPadding = PaddingValues(0.dp)
     ) {
-        C(0, trang, activity)
-        C(1, trang, activity)
+        items(list.size) { index ->
+            Item(activity, item = list[index])
+        }
     }
 }
 
 @Composable
-fun C(i: Int, t: Int, activity: Activity) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(if (i == 0) 0.5f else 1f)
-    ) {
-        for(j in 0 upTo 3)
-            ItemHome(i+j*2+(t-1)*8, activity)
-    }
-}
-
-@Composable
-fun ItemHome(i: Int, activity: Activity) {
+fun Item(activity: Activity, item: NoiThat) {
     Button(
         onClick = {
             startActivity(
@@ -180,8 +180,8 @@ fun ItemHome(i: Int, activity: Activity) {
     ) {
         Column {
             Image(
-                painter = painterResource(id = R.drawable.ghe),
-                contentDescription = "ghe",
+                painter = painterResource(id = item.anh as Int),
+                contentDescription = item.ten,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
@@ -191,7 +191,7 @@ fun ItemHome(i: Int, activity: Activity) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Ghế",
+                Text(text = item.ten,
                     modifier = Modifier.padding(1.dp),
                     fontSize = 16.sp,
                     color = Color.Black,
@@ -201,7 +201,7 @@ fun ItemHome(i: Int, activity: Activity) {
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Text(text = "3000$",
+                Text(text = item.gia.toString(),
                     modifier = Modifier.padding(1.dp),
                     fontSize = 16.sp,
                     color = Color.Red,
@@ -219,6 +219,6 @@ fun ItemHome(i: Int, activity: Activity) {
 @Composable
 fun GreetingPreview3() {
     KOT104_AssignmentTheme {
-        Greeting3(Home())
+        Greeting3(Home(), listOf(NoiThat(),NoiThat(),NoiThat(),NoiThat(),NoiThat(),NoiThat(),NoiThat(),NoiThat()))
     }
 }
