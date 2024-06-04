@@ -84,7 +84,6 @@ fun NAV() {
 
 @Composable
 fun Greeting3(activity: Activity, list: List<NoiThat>) {
-    var trang = 1
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,36 +103,7 @@ fun Greeting3(activity: Activity, list: List<NoiThat>) {
                 HomeScreen(activity, list)
             }
             Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp, 0.dp, 12.dp, 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = { if(trang > 1) trang-- },
-                    colors = ButtonDefaults
-                        .buttonColors(containerColor = Color.White)
-                ) {
-                    Text(text = "<",
-                        fontSize = 24.sp,
-                        color = Color.Black
-                    )
-                }
-                Text(text = "$trang",
-                    fontSize = 24.sp,
-                    color = Color.Black
-                )
-                Button(onClick = { trang++ },
-                colors = ButtonDefaults
-                    .buttonColors(containerColor = Color.White)
-                ) {
-                    Text(text = ">",
-                        fontSize = 24.sp,
-                        color = Color.Black
-                    )
-                }
-            }
+            SwitchPage()
         }
     }
 }
@@ -213,6 +183,47 @@ fun Item(activity: Activity, item: NoiThat) {
             }
         }
     }
+}
+
+@Composable
+fun SwitchPage(){
+    var trang = 1
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp, 0.dp, 12.dp, 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(onClick = { if(trang > 1) trang-- },
+            colors = ButtonDefaults
+                .buttonColors(containerColor = Color.White)
+        ) {
+            Text(text = "<",
+                fontSize = 24.sp,
+                color = Color.Black
+            )
+
+        }
+        SetPage(trang = trang)
+        Button(onClick = { trang++ },
+            colors = ButtonDefaults
+                .buttonColors(containerColor = Color.White)
+        ) {
+            Text(text = ">",
+                fontSize = 24.sp,
+                color = Color.Black
+            )
+        }
+    }
+}
+
+@Composable
+fun SetPage(trang: Int) {
+    Text(text = "$trang",
+        fontSize = 24.sp,
+        color = Color.Black
+    )
 }
 
 @Preview(showBackground = true)
