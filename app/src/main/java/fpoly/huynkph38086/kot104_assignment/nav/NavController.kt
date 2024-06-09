@@ -47,16 +47,14 @@ fun Nav() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp),
-        colors = CardDefaults.cardColors(containerColor =
-        Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation =
-        4.dp)
+            .padding(4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(4.dp)
         ) {
             Button(onClick = { /*TODO*/ },
                 colors = ButtonDefaults

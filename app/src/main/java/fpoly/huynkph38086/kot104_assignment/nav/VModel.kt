@@ -6,8 +6,10 @@ import fpoly.huynkph38086.kot104_assignment.models.ChiTietGioHang
 import fpoly.huynkph38086.kot104_assignment.models.GioHang
 import fpoly.huynkph38086.kot104_assignment.models.NoiThat
 import fpoly.huynkph38086.kot104_assignment.models.TaiKhoan
+import fpoly.huynkph38086.kot104_assignment.models.TaiKhoan.Companion.NaNUser
 
 class VModel : ViewModel() {
+    var currentUser: TaiKhoan = NaNUser
     val uesrs: ArrayList<TaiKhoan> = arrayListOf(TaiKhoan("admin", "admin"))
     val products: ArrayList<NoiThat> = arrayListOf(
         NoiThat("0", R.drawable.ghe, "Ghế", 1200.0, "Siêu thoải mái, chất lượng cao"),

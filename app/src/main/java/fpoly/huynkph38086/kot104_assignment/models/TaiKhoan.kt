@@ -7,4 +7,12 @@ data class TaiKhoan(
     fun check(pw: String): Boolean {
         return pw == this.pw
     }
+
+    fun isNaN(): Boolean {
+        return this == NaNUser
+    }
+
+    companion object {
+        val NaNUser = TaiKhoan("", "")
+    }
 }

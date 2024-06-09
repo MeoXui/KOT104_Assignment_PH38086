@@ -51,10 +51,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import fpoly.huynkph38086.kot104_assignment.R
-import fpoly.huynkph38086.kot104_assignment.models.NoiThat
+import java.time.LocalDateTime
 
 enum class Screen(val route: String) {
-    Welcome("Welcome"),
     Login("Login"),
     Register("Register"),
     Home("Home"),
@@ -132,6 +131,8 @@ fun LoginScreen(navController: NavController, viewModel: VModel) {
                         if (tk == null) Toast.makeText(context, "Tài khoản không tồn tại",
                             Toast.LENGTH_LONG).show()
                         else if (tk.check(pw)) {
+                            viewModel.currentUser = tk
+                            viewModel.newCart()
                             navController.navigate(Screen.Home.route)
                             Toast.makeText(context, "Đăng nhập thành công",
                                 Toast.LENGTH_LONG).show()
@@ -232,11 +233,12 @@ fun RegisterScreen(navController: NavController, viewModel: VModel) {
                         val tk = viewModel.getUserBy(un)
                         if (tk != null) Toast.makeText(context, "Tài khoản đã tồn tại",
                             Toast.LENGTH_LONG).show()
-                        else {
+                        else if (viewModel.addUser(un, pw)) {
                             Toast.makeText(context, "Đăng ký thành công",
                                 Toast.LENGTH_LONG).show()
                             navController.popBackStack()
-                        }
+                        } else Toast.makeText(context, "Đăng ký thất bại",
+                            Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "Vui lòng không để trống",
                             Toast.LENGTH_LONG).show()
@@ -259,11 +261,7 @@ fun RegisterScreen(navController: NavController, viewModel: VModel) {
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: VModel) {
-    val list = if (viewModel.products.isEmpty()) viewModel.products else
-        arrayListOf(
-            NoiThat(), NoiThat("1"), NoiThat("2"), NoiThat("3"), NoiThat("4"),
-            NoiThat("5"), NoiThat("6"), NoiThat("7"), NoiThat("8"), NoiThat("9")
-        )
+    val list = viewModel.products
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -288,6 +286,7 @@ fun HomeScreen(navController: NavController, viewModel: VModel) {
                 }
             }
         }
+        Nav()
     }
 }
 
@@ -391,6 +390,7 @@ fun DetailsScreen(navController: NavController, viewModel: VModel, id: String?) 
 
 @Composable
 fun CartScreen(navController: NavController, viewModel: VModel) {
+    if(viewModel.gioHang.ngMua.isNaN()) viewModel.newCart()
     val gioHang = viewModel.gioHang
     Column(
         modifier = Modifier
@@ -507,8 +507,18 @@ fun PaymentScreen(navController: NavController, viewModel: VModel) {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
+                Text(text = "Người mua: ${gioHang.ngMua}",
+                    fontSize = 24.sp
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(text = "Lúc: ${LocalDateTime.now()}",
+                    fontSize = 24.sp
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+
                 Text(text = "Tổng tiền: ${gioHang.getTongTien()}$",
-                    fontSize = 33.sp
+                    fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -520,13 +530,14 @@ fun PaymentScreen(navController: NavController, viewModel: VModel) {
                     border = BorderStroke(1.dp, Color.DarkGray)
                 ) {
                     Text(text = "Quay lai",
-                        fontSize = 28.sp,
+                        fontSize = 22.sp,
                         color = Color.Black
                     )
                 }
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(onClick = {
+                    viewModel.newCart()
                     Toast.makeText(context, "Mua thành công",
                         Toast.LENGTH_LONG).show()
                     navController.popBackStack()
@@ -540,7 +551,7 @@ fun PaymentScreen(navController: NavController, viewModel: VModel) {
                     border = BorderStroke(1.dp, Color.DarkGray)
                 ) {
                     Text(text = "Xác nhận",
-                        fontSize = 28.sp,
+                        fontSize = 22.sp,
                         color = Color.Black
                     )
                 }
