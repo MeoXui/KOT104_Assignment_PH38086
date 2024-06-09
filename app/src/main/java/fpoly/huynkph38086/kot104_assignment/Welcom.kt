@@ -33,9 +33,9 @@ class MainActivity : ComponentActivity() {
         }
 
         Handler().postDelayed({
-            startActivity(this, Intent(this, Login::class.java), null)
+            startActivity(this, Intent(this, Main::class.java), null)
             finish()
-        }, 1500)
+        }, 3000)
     }
 }
 
