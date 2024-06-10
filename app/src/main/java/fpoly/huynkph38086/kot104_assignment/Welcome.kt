@@ -22,13 +22,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import fpoly.huynkph38086.kot104_assignment.ui.theme.KOT104_AssignmentTheme
 
-class MainActivity : ComponentActivity() {
+class WelcomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             KOT104_AssignmentTheme {
-                Greeting()
+                WelcomeGreeting()
             }
         }
 
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting() {
+fun WelcomeGreeting() {
     Box (
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -54,8 +54,8 @@ fun Greeting() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun WelcomePreview() {
     KOT104_AssignmentTheme {
-        Greeting()
+        WelcomeGreeting()
     }
 }

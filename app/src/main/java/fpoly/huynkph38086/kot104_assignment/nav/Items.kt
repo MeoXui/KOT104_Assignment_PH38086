@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,11 +27,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fpoly.huynkph38086.kot104_assignment.R
 import fpoly.huynkph38086.kot104_assignment.models.ChiTietGioHang
+import fpoly.huynkph38086.kot104_assignment.models.HoaDon
 import fpoly.huynkph38086.kot104_assignment.models.NoiThat
+import fpoly.huynkph38086.kot104_assignment.ui.theme.KOT104_AssignmentTheme
+import java.time.LocalDateTime
 
 @Composable
 fun ItemHome(item: NoiThat, onClick: (id: String) -> Unit) {
@@ -150,5 +156,59 @@ fun ItemCart(item: ChiTietGioHang, sl: Int, onPlus: () -> Unit, onMinus: () -> U
                     .clickable { onMinus() }
             )
         }
+    }
+}
+
+@Composable
+fun ItemHistory(item: HoaDon) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text(text = "Người mua: ${item.ngMua}",
+                modifier = Modifier.padding(1.dp),
+                fontSize = 24.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                //fontStyle = FontStyle.Italic,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(text = "Lúc: ${item.thoiGian}",
+                modifier = Modifier.padding(1.dp),
+                fontSize = 24.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                //fontStyle = FontStyle.Italic,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(text = "Tổng: ${item.tongTien}$",
+                modifier = Modifier.padding(1.dp),
+                fontSize = 24.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                //fontStyle = FontStyle.Italic,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ItemPreview() {
+    KOT104_AssignmentTheme {
+        ItemHistory(HoaDon("admin", LocalDateTime.now().toString(), "3000.0"))
     }
 }

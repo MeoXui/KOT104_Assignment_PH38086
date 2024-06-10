@@ -14,5 +14,6 @@ data class TaiKhoan(
 
     companion object {
         val NaNUser = TaiKhoan("", "")
+        val Admin = TaiKhoan("admin", "admin")
     }
 }

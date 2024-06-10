@@ -15,21 +15,21 @@ class Main : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KOT104_AssignmentTheme {
-                Greeting8()
+                MainGreeting()
             }
         }
     }
 }
 
 @Composable
-fun Greeting8() {
+fun MainGreeting() {
     NavController()
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview8() {
+fun MainPreview() {
     KOT104_AssignmentTheme {
-        Greeting8()
+        MainGreeting()
     }
 }

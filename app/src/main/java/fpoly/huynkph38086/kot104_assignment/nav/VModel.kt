@@ -4,14 +4,16 @@ import androidx.lifecycle.ViewModel
 import fpoly.huynkph38086.kot104_assignment.R
 import fpoly.huynkph38086.kot104_assignment.models.ChiTietGioHang
 import fpoly.huynkph38086.kot104_assignment.models.GioHang
+import fpoly.huynkph38086.kot104_assignment.models.HoaDon
 import fpoly.huynkph38086.kot104_assignment.models.NoiThat
 import fpoly.huynkph38086.kot104_assignment.models.TaiKhoan
+import fpoly.huynkph38086.kot104_assignment.models.TaiKhoan.Companion.Admin
 import fpoly.huynkph38086.kot104_assignment.models.TaiKhoan.Companion.NaNUser
 
 class VModel : ViewModel() {
-    var currentUser: TaiKhoan = NaNUser
-    val uesrs: ArrayList<TaiKhoan> = arrayListOf(TaiKhoan("admin", "admin"))
-    val products: ArrayList<NoiThat> = arrayListOf(
+    var currentUser: TaiKhoan = Admin
+    var uesrs: ArrayList<TaiKhoan> = arrayListOf(Admin)
+    var products: ArrayList<NoiThat> = arrayListOf(
         NoiThat("0", R.drawable.ghe, "Ghế", 1200.0, "Siêu thoải mái, chất lượng cao"),
         NoiThat("1", R.drawable.ban, "Bàn", 2200.0, "Siêu bàn"),
         NoiThat("2", R.drawable.quat, "Quạt", 300.0, "Siêu mái lạnh... thấu xương"),
@@ -19,7 +21,8 @@ class VModel : ViewModel() {
         NoiThat("4", R.drawable.giuong, "Giường", 5335521.98, "Tặng còm một con ma dười gầm"),
         NoiThat("5", R.drawable.ban_ghe, "Bàn ghế nguyên bộ", 30000.0, "3 lạng 1 cần, ko thiểu ko lấy tiền")
     )
-    var gioHang: GioHang = GioHang()
+    var cart: GioHang = GioHang()
+    var historys: ArrayList<HoaDon> = arrayListOf()
 
     fun getUserBy(un: String): TaiKhoan? {
         for(i in uesrs)
@@ -61,10 +64,14 @@ class VModel : ViewModel() {
     }
 
     fun addCart(item: NoiThat) {
-        gioHang.list.add(ChiTietGioHang(item))
+        cart.add(ChiTietGioHang(item))
     }
 
     fun newCart() {
-        gioHang = GioHang()
+        cart = GioHang()
+    }
+
+    fun andHistory(item: HoaDon) {
+        historys.add(item)
     }
 }
